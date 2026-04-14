@@ -3,28 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Karrera — The Trust Layer for Human Capital</title>
-  <meta name="description" content="Turn self-reported resumes into cryptographically signed proof of who you are. Verified credentials that compile, not just look good.">
+  <title>Karrera — Resumes That Compile | Verified Career Credentials</title>
+  <meta name="description" content="Turn self-reported resumes into cryptographically signed proof of who you are. Patent-pending verification technology. Get your first assessment for $1.">
+  <meta name="keywords" content="verified resume, credential verification, career authentication, resume fraud prevention, cryptographic proof, digital credentials, career trust, verified credentials, resume verification, background check alternative">
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://karrera.io/">
 
   <!-- Open Graph -->
-  <meta property="og:title" content="Karrera — The Trust Layer for Human Capital">
+  <meta property="og:title" content="Karrera — Resumes That Compile">
   <meta property="og:description" content="Turn self-reported resumes into cryptographically signed proof of who you are. $1 to get your first verified career assessment.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://karrera.io/">
   <meta property="og:image" content="https://karrera.io/og-image.png">
-  <meta property="og:image:width" content="1456">
-  <meta property="og:image:height" content="816">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Karrera — Resumes that compile. The Trust Layer for Human Capital.">
   <meta property="og:site_name" content="Karrera">
+  <meta property="og:locale" content="en_US">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Karrera — Resumes that compile.">
+  <meta name="twitter:title" content="Karrera — Resumes That Compile">
   <meta name="twitter:description" content="Turn self-reported resumes into cryptographically signed proof of who you are. Patent-pending verification technology.">
-  <meta name="twitter:image" content="https://karrera.io/og-image.png">
+  <meta name="twitter:image" content="https://karrera.io/twitter-card.png">
   <meta name="twitter:image:alt" content="Karrera — Resumes that compile. The Trust Layer for Human Capital.">
 
-  <!-- Structured Data (JSON-LD) -->
+  <!-- Structured Data (JSON-LD) — SoftwareApplication -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -34,12 +39,14 @@
     "url": "https://karrera.io/",
     "applicationCategory": "BusinessApplication",
     "operatingSystem": "Web",
+    "image": "https://karrera.io/og-image.png",
     "offers": [
       {
         "@type": "Offer",
         "name": "First Assessment",
         "price": "1.00",
         "priceCurrency": "USD",
+        "url": "https://karrera.io/#pricing",
         "description": "One-time career credential assessment with verified/partially verified/not verified status"
       },
       {
@@ -47,12 +54,14 @@
         "name": "Karrera Pro",
         "price": "9.99",
         "priceCurrency": "USD",
+        "url": "https://karrera.io/#pricing",
         "description": "Monthly subscription for continuous verification monitoring, skill atrophy tracking, and credential maintenance"
       }
     ],
     "creator": {
       "@type": "Organization",
       "name": "Altivum Inc",
+      "url": "https://karrera.io",
       "founder": {
         "@type": "Person",
         "name": "Christian Perez"
@@ -61,10 +70,70 @@
   }
   </script>
 
-  <!-- Fonts -->
-  <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,700,800&f[]=satoshi@300,400,500,600,700&display=swap" rel="stylesheet">
+  <!-- Structured Data (JSON-LD) — Organization -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Karrera",
+    "legalName": "Altivum Inc",
+    "url": "https://karrera.io",
+    "logo": "https://karrera.io/og-image.png",
+    "description": "The trust layer for human capital. Verified career credentials powered by patent-pending cryptographic technology.",
+    "founder": {
+      "@type": "Person",
+      "name": "Christian Perez"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "email": "hello@karrera.dev",
+      "contactType": "customer support"
+    }
+  }
+  </script>
+
+  <!-- Structured Data (JSON-LD) — FAQPage for rich snippets -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How does Karrera verify resume credentials?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Karrera uses a proprietary domain-specific language to structure career claims, then authenticates each one against the original issuer via OAuth, SMS, or certification badge verification. Each verified claim generates a cryptographic JWT proof."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How much does Karrera cost?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Your first career credential assessment costs just $1. For continuous verification monitoring, skill atrophy tracking, and credential maintenance, Karrera Pro is $9.99 per month."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do employers need to adopt Karrera for it to work?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Karrera uses a notary pattern — it authenticates through existing OAuth and public verification systems. Universities, employers, and certifiers do not need to change anything."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Robots -->
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+
+  <!-- Fonts: preconnect first, then load -->
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,700,800&f[]=satoshi@300,400,500,600,700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
   <!-- Styles -->
@@ -83,6 +152,9 @@
   </script>
 </head>
 <body>
+
+  <!-- Skip to main content (accessibility) -->
+  <a href="#main-content" class="sr-only" style="position:absolute;top:-40px;left:0;background:var(--color-accent);color:#fff;padding:8px 16px;z-index:100;transition:top 0.2s;" onfocus="this.style.top='0'" onblur="this.style.top='-40px'">Skip to main content</a>
 
   <!-- ===== HEADER ===== -->
   <header class="header" id="header">
@@ -106,6 +178,7 @@
   </header>
 
   <!-- ===== HERO ===== -->
+  <main id="main-content">
   <section class="hero">
     <div class="container">
       <div class="animate-in">
@@ -363,6 +436,8 @@
       </div>
     </div>
   </section>
+
+  </main>
 
   <!-- ===== FOOTER ===== -->
   <footer class="footer">
