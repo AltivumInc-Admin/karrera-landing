@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Karrera — The Trust Layer for Human Capital</title>
+  <meta name="description" content="Turn self-reported resumes into cryptographically signed proof of who you are. Verified credentials that compile, not just look good.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Karrera — The Trust Layer for Human Capital">
+  <meta property="og:description" content="Resumes that compile. Every claim cryptographically verified.">
+  <meta property="og:type" content="website">
+
+  <!-- Fonts -->
+  <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,700,800&f[]=satoshi@300,400,500,600,700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="./base.css">
+  <link rel="stylesheet" href="./style.css">
+
+  <!-- Favicon (inline SVG as data URI) -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%230d9488'/><path d='M8 22V10l5 6 5-6v12' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/><circle cx='24' cy='10' r='2.5' fill='%2334d399'/></svg>" type="image/svg+xml">
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="header" id="header">
+    <div class="container header-inner">
+      <a href="#" class="logo" aria-label="Karrera home">
+        <svg class="logo-mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="32" height="32" rx="6" fill="var(--color-accent)"/>
+          <path d="M8 22V10l5 6 5-6v12" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="24" cy="10" r="2.5" fill="#34d399"/>
+        </svg>
+        <span class="logo-text">Karrera</span>
+      </a>
+
+      <div class="header-actions">
+        <button class="theme-toggle" data-theme-toggle aria-label="Switch to dark mode">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <a href="#waitlist" class="btn btn-accent btn-sm">Join Waitlist</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="container">
+      <div class="animate-in">
+        <span class="hero-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Patent-Pending Technology
+        </span>
+      </div>
+
+      <h1 class="animate-in">Resumes that <span class="accent">compile.</span></h1>
+
+      <p class="hero-sub animate-in">Turn self-reported career claims into cryptographically signed proof. Every credential verified. Every claim authenticated. No more trust gaps.</p>
+
+      <div class="hero-cta animate-in">
+        <a href="#waitlist" class="btn btn-accent btn-lg">Get Verified — $1</a>
+        <a href="#how-it-works" class="btn btn-outline btn-lg">See How It Works</a>
+      </div>
+
+      <div class="hero-proof animate-in">
+        <span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          Email verified
+        </span>
+        <span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          LinkedIn verified
+        </span>
+        <span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          GitHub verified
+        </span>
+        <span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          Certifications verified
+        </span>
+      </div>
+
+      <!-- DSL Code Preview -->
+      <div class="dsl-preview animate-in">
+        <div class="dsl-header">
+          <span class="dsl-dot dsl-dot--red"></span>
+          <span class="dsl-dot dsl-dot--yellow"></span>
+          <span class="dsl-dot dsl-dot--green"></span>
+          <span class="dsl-filename">christian_perez.karr</span>
+        </div>
+        <pre class="dsl-body"><span class="kw">career</span> <span class="str">"Christian Perez"</span> {
+
+  <span class="kw">identity</span> {
+    <span class="prop">email</span>    = <span class="str">"c.perez@example.com"</span>  <span class="verified-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> verified</span>
+    <span class="prop">phone</span>    = <span class="str">"+1-XXX-XXX-1234"</span>     <span class="verified-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> verified</span>
+    <span class="prop">linkedin</span> = <span class="str">"in/christianperez"</span>   <span class="verified-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> verified</span>
+  }
+
+  <span class="kw">certification</span> <span class="str">"AWS Solutions Architect"</span> {
+    <span class="prop">issuer</span>   = <span class="str">"Amazon Web Services"</span>
+    <span class="prop">badge</span>    = <span class="str">"credly.com/badges/..."</span>  <span class="verified-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> verified</span>
+  }
+
+  <span class="cmt">// ✓ Compiled — all claims authenticated</span>
+}</pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== STATS BAR ===== -->
+  <section class="stats-bar">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="reveal">
+          <div class="stat-number">70%</div>
+          <div class="stat-label">of workers lie on resumes</div>
+        </div>
+        <div class="reveal">
+          <div class="stat-number">$600B</div>
+          <div class="stat-label">annual cost of resume fraud</div>
+        </div>
+        <div class="reveal">
+          <div class="stat-number">3.6B</div>
+          <div class="stat-label">global labor force</div>
+        </div>
+        <div class="reveal">
+          <div class="stat-number">0</div>
+          <div class="stat-label">universal trust standards</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== HOW IT WORKS ===== -->
+  <section class="section" id="how-it-works">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">How It Works</div>
+        <h2 class="section-title">Three steps to verified proof</h2>
+        <p class="section-subtitle">Karrera uses a domain-specific language to structure your career claims, then authenticates each one against the original issuer.</p>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-card reveal">
+          <div class="step-number">1</div>
+          <h3 class="step-title">Paste your resume</h3>
+          <p class="step-desc">Our AI agent ingests your resume, LinkedIn, or raw text — then structures every claim into Karrera's verification-ready format.</p>
+        </div>
+
+        <div class="step-card reveal">
+          <div class="step-number">2</div>
+          <h3 class="step-title">Verify each claim</h3>
+          <p class="step-desc">Authenticate via OAuth (Google, LinkedIn, GitHub), SMS, or certification badge. Each verified claim generates a cryptographic JWT proof.</p>
+        </div>
+
+        <div class="step-card reveal">
+          <div class="step-number">3</div>
+          <h3 class="step-title">Compile &amp; share</h3>
+          <p class="step-desc">Your profile compiles only when claims are verified. Share a tamper-proof link or QR code. Employers verify instantly — no phone calls, no delays.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== WHY KARRERA ===== -->
+  <section class="section" style="border-top: 1px solid var(--color-divider);">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">Why Karrera</div>
+        <h2 class="section-title">The notary pattern</h2>
+        <p class="section-subtitle">We don't require employers or institutions to adopt new standards. Karrera witnesses your authentication against existing systems — like a digital notary.</p>
+      </div>
+
+      <div class="trust-grid">
+        <div class="trust-card reveal">
+          <div class="trust-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h3>Zero issuer burden</h3>
+          <p>Universities, employers, and certifiers don't need to change anything. We authenticate through their existing OAuth and public verification systems.</p>
+        </div>
+
+        <div class="trust-card reveal">
+          <div class="trust-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <h3>Privacy by design</h3>
+          <p>All PII is SHA-256 hashed before storage. Your data stays yours. Verifiers confirm claims without seeing raw personal information.</p>
+        </div>
+
+        <div class="trust-card reveal">
+          <div class="trust-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          </div>
+          <h3>Cryptographic proof</h3>
+          <p>Every verified claim produces a signed JWT attestation. Not a checkbox — a tamper-evident, timestamped, cryptographic receipt.</p>
+        </div>
+
+        <div class="trust-card reveal">
+          <div class="trust-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </div>
+          <h3>Universal &amp; portable</h3>
+          <p>Your Karrera profile works everywhere — share a link, scan a QR code, export a verified PDF. One source of truth for your entire career.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PRICING ===== -->
+  <section class="section pricing-section" id="pricing">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">Pricing</div>
+        <h2 class="section-title">Start with $1. Know where you stand.</h2>
+        <p class="section-subtitle">Get your first career assessment for a dollar. Upgrade to keep your credentials verified, tracked, and always current.</p>
+      </div>
+
+      <div class="pricing-cards">
+        <div class="pricing-card reveal">
+          <div class="pricing-label">First Assessment</div>
+          <div class="pricing-amount">$1</div>
+          <p class="pricing-desc">One-time career credential assessment. See exactly where you stand — verified, partially verified, or needs work.</p>
+          <ul class="pricing-features" role="list">
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Full credential scan
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Verified / Partially Verified / Not Verified status
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Shareable trust score
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              AI-powered resume structuring
+            </li>
+          </ul>
+          <a href="#waitlist" class="btn btn-outline" style="width:100%">Join Waitlist</a>
+        </div>
+
+        <div class="pricing-card pricing-card--featured reveal">
+          <div class="pricing-label">Karrera Pro</div>
+          <div class="pricing-amount">$9.99<span>/month</span></div>
+          <p class="pricing-desc">Continuous verification monitoring. Track skill atrophy, maintain active proofs, and keep your profile compiled.</p>
+          <ul class="pricing-features" role="list">
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Everything in First Assessment
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Skill atrophy tracking &amp; alerts
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Continuous verification maintenance
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Verified PDF export with proof marks
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              QR code &amp; embeddable badge
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Priority verification processing
+            </li>
+          </ul>
+          <a href="#waitlist" class="btn btn-accent" style="width:100%">Join Waitlist</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== WAITLIST CTA ===== -->
+  <section class="section waitlist-section" id="waitlist">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">Early Access</div>
+        <h2 class="section-title">Be first in line</h2>
+        <p class="section-subtitle">Join the waitlist for early access. Be among the first to compile your career.</p>
+      </div>
+
+      <form class="waitlist-form reveal" id="waitlist-form" onsubmit="return handleWaitlist(event)">
+        <input type="email" class="waitlist-input" placeholder="you@example.com" required aria-label="Email address">
+        <button type="submit" class="btn btn-accent waitlist-btn">Join Waitlist</button>
+      </form>
+      <p class="waitlist-note reveal">No spam. We'll notify you when early access opens.</p>
+
+      <div class="waitlist-success" id="waitlist-success">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <h3 style="font-family: var(--font-display); font-size: var(--text-lg); margin-bottom: var(--space-2);">You're on the list.</h3>
+        <p style="color: inherit; opacity: 0.7; font-size: var(--text-sm);">We'll reach out when early access is ready.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>
+        <a href="#" class="logo" aria-label="Karrera home" style="margin-bottom: var(--space-2);">
+          <svg class="logo-mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="width:24px;height:24px;">
+            <rect width="32" height="32" rx="6" fill="var(--color-accent)"/>
+            <path d="M8 22V10l5 6 5-6v12" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="24" cy="10" r="2.5" fill="#34d399"/>
+          </svg>
+          <span class="logo-text" style="font-size: var(--text-sm);">Karrera</span>
+        </a>
+        <p class="footer-text">&copy; 2026 Karrera. The trust layer for human capital.</p>
+      </div>
+      <div class="footer-links">
+        <a href="mailto:hello@karrera.dev">Contact</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#how-it-works">How It Works</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script>
+    // Theme toggle
+    (function () {
+      const t = document.querySelector('[data-theme-toggle]');
+      const r = document.documentElement;
+      let d = matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light';
+      r.setAttribute('data-theme', d);
+      updateToggleIcon();
+
+      t && t.addEventListener('click', () => {
+        d = d === 'dark' ? 'light' : 'dark';
+        r.setAttribute('data-theme', d);
+        t.setAttribute('aria-label', 'Switch to ' + (d === 'dark' ? 'light' : 'dark') + ' mode');
+        updateToggleIcon();
+      });
+
+      function updateToggleIcon() {
+        if (!t) return;
+        t.innerHTML = d === 'dark'
+          ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>'
+          : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+      }
+    })();
+
+    // Scroll header shadow
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('header--scrolled', window.scrollY > 10);
+    }, { passive: true });
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    reveals.forEach(el => observer.observe(el));
+
+    // Waitlist form
+    function handleWaitlist(e) {
+      e.preventDefault();
+      const form = document.getElementById('waitlist-form');
+      const success = document.getElementById('waitlist-success');
+      const email = form.querySelector('input[type="email"]').value;
+
+      // Store email (in production, this would POST to an API)
+      console.log('Waitlist signup:', email);
+
+      form.style.display = 'none';
+      document.querySelector('.waitlist-note').style.display = 'none';
+      success.classList.add('show');
+
+      return false;
+    }
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
