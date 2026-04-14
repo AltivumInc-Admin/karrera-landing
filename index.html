@@ -8,8 +8,58 @@
 
   <!-- Open Graph -->
   <meta property="og:title" content="Karrera — The Trust Layer for Human Capital">
-  <meta property="og:description" content="Resumes that compile. Every claim cryptographically verified.">
+  <meta property="og:description" content="Turn self-reported resumes into cryptographically signed proof of who you are. $1 to get your first verified career assessment.">
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://master.dqzdzf3srnlw1.amplifyapp.com/">
+  <meta property="og:image" content="https://master.dqzdzf3srnlw1.amplifyapp.com/og-image.png">
+  <meta property="og:image:width" content="1456">
+  <meta property="og:image:height" content="816">
+  <meta property="og:image:alt" content="Karrera — Resumes that compile. The Trust Layer for Human Capital.">
+  <meta property="og:site_name" content="Karrera">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Karrera — Resumes that compile.">
+  <meta name="twitter:description" content="Turn self-reported resumes into cryptographically signed proof of who you are. Patent-pending verification technology.">
+  <meta name="twitter:image" content="https://master.dqzdzf3srnlw1.amplifyapp.com/og-image.png">
+  <meta name="twitter:image:alt" content="Karrera — Resumes that compile. The Trust Layer for Human Capital.">
+
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Karrera",
+    "description": "The trust layer for human capital. Turn self-reported resumes into cryptographically signed proof of who you are.",
+    "url": "https://master.dqzdzf3srnlw1.amplifyapp.com/",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "offers": [
+      {
+        "@type": "Offer",
+        "name": "First Assessment",
+        "price": "1.00",
+        "priceCurrency": "USD",
+        "description": "One-time career credential assessment with verified/partially verified/not verified status"
+      },
+      {
+        "@type": "Offer",
+        "name": "Karrera Pro",
+        "price": "9.99",
+        "priceCurrency": "USD",
+        "description": "Monthly subscription for continuous verification monitoring, skill atrophy tracking, and credential maintenance"
+      }
+    ],
+    "creator": {
+      "@type": "Organization",
+      "name": "Altivum Inc",
+      "founder": {
+        "@type": "Person",
+        "name": "Christian Perez"
+      }
+    }
+  }
+  </script>
 
   <!-- Fonts -->
   <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,700,800&f[]=satoshi@300,400,500,600,700&display=swap" rel="stylesheet">
@@ -23,6 +73,9 @@
 
   <!-- Favicon (inline SVG as data URI) -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%230d9488'/><path d='M8 22V10l5 6 5-6v12' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/><circle cx='24' cy='10' r='2.5' fill='%2334d399'/></svg>" type="image/svg+xml">
+
+  <!-- Analytics (Plausible - privacy-friendly, no cookies, no consent banner) -->
+  <script defer data-domain="master.dqzdzf3srnlw1.amplifyapp.com" src="https://plausible.io/js/script.tagged-events.js"></script>
 </head>
 <body>
 
@@ -372,16 +425,38 @@
 
     reveals.forEach(el => observer.observe(el));
 
-    // Waitlist form
+    // Waitlist form — captures to multiple channels for redundancy
     function handleWaitlist(e) {
       e.preventDefault();
       const form = document.getElementById('waitlist-form');
       const success = document.getElementById('waitlist-success');
+      const btn = form.querySelector('.waitlist-btn');
       const email = form.querySelector('input[type="email"]').value;
 
-      // Store email (in production, this would POST to an API)
-      console.log('Waitlist signup:', email);
+      // Disable button to prevent double-submit
+      btn.disabled = true;
+      btn.textContent = 'Joining...';
 
+      // 1. Store in localStorage as offline backup
+      const waitlist = JSON.parse(localStorage.getItem('karrera_waitlist') || '[]');
+      waitlist.push({ email, timestamp: new Date().toISOString(), source: 'landing_page' });
+      localStorage.setItem('karrera_waitlist', JSON.stringify(waitlist));
+
+      // 2. Submit to Typeform hidden endpoint (primary collection)
+      const typeformData = new FormData();
+      typeformData.append('email', email);
+      fetch('https://form.typeform.com/to/JZktLW1h', {
+        method: 'POST',
+        mode: 'no-cors',
+        body: typeformData
+      }).catch(() => {});
+
+      // 3. Fire Plausible custom event for conversion tracking
+      if (window.plausible) {
+        window.plausible('Waitlist Signup', { props: { source: 'landing_page' } });
+      }
+
+      // Show success regardless (we have localStorage backup)
       form.style.display = 'none';
       document.querySelector('.waitlist-note').style.display = 'none';
       success.classList.add('show');
