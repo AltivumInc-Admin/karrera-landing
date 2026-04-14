@@ -75,7 +75,12 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%230d9488'/><path d='M8 22V10l5 6 5-6v12' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/><circle cx='24' cy='10' r='2.5' fill='%2334d399'/></svg>" type="image/svg+xml">
 
   <!-- Analytics (Plausible - privacy-friendly, no cookies, no consent banner) -->
-  <script defer data-domain="master.dqzdzf3srnlw1.amplifyapp.com" src="https://plausible.io/js/script.tagged-events.js"></script>
+  <!-- Privacy-friendly analytics by Plausible -->
+  <script async src="https://plausible.io/js/pa-nV0LEDjkN9GyEvFefCqCQ.js"></script>
+  <script>
+    window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+    plausible.init()
+  </script>
 </head>
 <body>
 
@@ -425,7 +430,7 @@
 
     reveals.forEach(el => observer.observe(el));
 
-    // Waitlist form — captures to multiple channels for redundancy
+    // Waitlist form — DynamoDB primary, Typeform + localStorage fallback
     function handleWaitlist(e) {
       e.preventDefault();
       const form = document.getElementById('waitlist-form');
@@ -437,12 +442,37 @@
       btn.disabled = true;
       btn.textContent = 'Joining...';
 
-      // 1. Store in localStorage as offline backup
+      // 1. PRIMARY: Submit to Karrera API (DynamoDB-backed)
+      fetch('https://105ec3w0n3.execute-api.us-east-1.amazonaws.com/waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, source: 'landing_page' })
+      })
+      .then(res => res.json())
+      .then(data => {
+        // 200 = new signup, 409 = already on list — both are success for the user
+        form.style.display = 'none';
+        document.querySelector('.waitlist-note').style.display = 'none';
+        success.classList.add('show');
+
+        // Fire Plausible custom event for conversion tracking
+        if (window.plausible) {
+          window.plausible('Waitlist Signup', { props: { source: 'landing_page' } });
+        }
+      })
+      .catch(() => {
+        // API failed — show success anyway, we have fallback channels
+        form.style.display = 'none';
+        document.querySelector('.waitlist-note').style.display = 'none';
+        success.classList.add('show');
+      });
+
+      // 2. FALLBACK: Store in localStorage as offline backup
       const waitlist = JSON.parse(localStorage.getItem('karrera_waitlist') || '[]');
       waitlist.push({ email, timestamp: new Date().toISOString(), source: 'landing_page' });
       localStorage.setItem('karrera_waitlist', JSON.stringify(waitlist));
 
-      // 2. Submit to Typeform hidden endpoint (primary collection)
+      // 3. FALLBACK: Submit to Typeform (fire-and-forget)
       const typeformData = new FormData();
       typeformData.append('email', email);
       fetch('https://form.typeform.com/to/JZktLW1h', {
@@ -450,16 +480,6 @@
         mode: 'no-cors',
         body: typeformData
       }).catch(() => {});
-
-      // 3. Fire Plausible custom event for conversion tracking
-      if (window.plausible) {
-        window.plausible('Waitlist Signup', { props: { source: 'landing_page' } });
-      }
-
-      // Show success regardless (we have localStorage backup)
-      form.style.display = 'none';
-      document.querySelector('.waitlist-note').style.display = 'none';
-      success.classList.add('show');
 
       return false;
     }
