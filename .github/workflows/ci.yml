@@ -1,0 +1,79 @@
+name: Landing Page CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  validate:
+    name: Validate Landing Page
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify index.html exists
+        run: test -f index.html
+
+      - name: Check required meta tags
+        run: |
+          echo "Checking OG tags..."
+          grep -q 'og:title' index.html
+          grep -q 'og:description' index.html
+          grep -q 'og:image' index.html
+          grep -q 'og:url' index.html
+          echo "✓ All OG tags present"
+
+          echo "Checking Twitter cards..."
+          grep -q 'twitter:card' index.html
+          grep -q 'twitter:image' index.html
+          echo "✓ Twitter cards present"
+
+          echo "Checking structured data..."
+          grep -q 'application/ld+json' index.html
+          echo "✓ JSON-LD present"
+
+      - name: Verify URLs point to karrera.io (not Amplify)
+        run: |
+          if grep -q 'amplifyapp.com' index.html robots.txt sitemap.xml; then
+            echo "❌ Found references to amplifyapp.com — all URLs should use karrera.io"
+            grep -n 'amplifyapp.com' index.html robots.txt sitemap.xml
+            exit 1
+          fi
+          echo "✓ No stale Amplify URLs found"
+
+      - name: Check internal anchor links
+        run: |
+          # Extract all href="#..." anchors
+          ANCHORS=$(grep -oP 'href="#\K[^"]+' index.html | sort -u)
+          MISSING=0
+          for anchor in $ANCHORS; do
+            if ! grep -q "id=\"$anchor\"" index.html; then
+              echo "❌ Broken anchor: #$anchor (no matching id)"
+              MISSING=1
+            fi
+          done
+          if [ $MISSING -eq 0 ]; then
+            echo "✓ All internal anchors resolve"
+          else
+            exit 1
+          fi
+
+      - name: Check file sizes (performance guard)
+        run: |
+          MAX_HTML=50000  # 50KB
+          MAX_CSS=50000   # 50KB
+          HTML_SIZE=$(wc -c < index.html)
+          CSS_SIZE=$(wc -c < style.css)
+          echo "index.html: ${HTML_SIZE} bytes"
+          echo "style.css: ${CSS_SIZE} bytes"
+          if [ $HTML_SIZE -gt $MAX_HTML ]; then
+            echo "⚠️ index.html exceeds ${MAX_HTML} bytes"
+            exit 1
+          fi
+          if [ $CSS_SIZE -gt $MAX_CSS ]; then
+            echo "⚠️ style.css exceeds ${MAX_CSS} bytes"
+            exit 1
+          fi
+          echo "✓ All files within size limits"
