@@ -837,6 +837,28 @@ body {
 }
 
 /* ============================================
+   TESTIMONIALS (testimonial.to Wall of Love)
+   ============================================ */
+
+.testimonials-section {
+  border-top: 1px solid var(--color-divider);
+}
+
+.testimonial-wall {
+  max-width: var(--content-wide);
+  margin-inline: auto;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  min-height: 300px;
+}
+
+.testimonial-wall iframe {
+  width: 100%;
+  min-height: 300px;
+  border: none;
+}
+
+/* ============================================
    WAITLIST / EMAIL CAPTURE
    ============================================ */
 

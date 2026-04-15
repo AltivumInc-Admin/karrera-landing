@@ -354,6 +354,29 @@
     </div>
   </section>
 
+  <!-- ===== TESTIMONIALS (testimonial.to Wall of Love) ===== -->
+  <section class="section testimonials-section" id="testimonials">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">What People Are Saying</div>
+        <h2 class="section-title">Built in public. Backed by the community.</h2>
+        <p class="section-subtitle">Real feedback from early supporters, beta testers, and the people who believe trust should be the default in hiring.</p>
+      </div>
+
+      <div class="testimonial-wall reveal" id="testimonial-wall">
+        <iframe
+          id="testimonialto-karrera-wall"
+          src="https://embed-v2.testimonial.to/w/wall-of-love-for-testimonial?theme=dark&card=base"
+          frameborder="0"
+          scrolling="no"
+          width="100%"
+          loading="lazy"
+          title="Karrera testimonials"
+        ></iframe>
+      </div>
+    </div>
+  </section>
+
   <!-- ===== PRICING ===== -->
   <section class="section pricing-section" id="pricing">
     <div class="container">
@@ -472,21 +495,26 @@
     </div>
   </footer>
 
+  <!-- testimonial.to iframe resizer -->
+  <script type="text/javascript" src="https://testimonial.to/js/iframeResizer.min.js" defer></script>
+
   <!-- ===== SCRIPTS ===== -->
   <script>
-    // Theme toggle
+    // Theme toggle + testimonial.to iframe theme sync
     (function () {
       const t = document.querySelector('[data-theme-toggle]');
       const r = document.documentElement;
       let d = matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light';
       r.setAttribute('data-theme', d);
       updateToggleIcon();
+      syncTestimonialTheme(d);
 
       t && t.addEventListener('click', () => {
         d = d === 'dark' ? 'light' : 'dark';
         r.setAttribute('data-theme', d);
         t.setAttribute('aria-label', 'Switch to ' + (d === 'dark' ? 'light' : 'dark') + ' mode');
         updateToggleIcon();
+        syncTestimonialTheme(d);
       });
 
       function updateToggleIcon() {
@@ -494,6 +522,13 @@
         t.innerHTML = d === 'dark'
           ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>'
           : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+      }
+
+      function syncTestimonialTheme(theme) {
+        var iframe = document.getElementById('testimonialto-karrera-wall');
+        if (!iframe) return;
+        var src = iframe.src;
+        iframe.src = src.replace(/theme=(light|dark)/, 'theme=' + theme);
       }
     })();
 
@@ -579,6 +614,18 @@
           target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
       });
+    });
+
+    // Initialize testimonial.to iframe resizer when script loads
+    document.addEventListener('DOMContentLoaded', function() {
+      var checkResizer = setInterval(function() {
+        if (typeof iFrameResize === 'function') {
+          iFrameResize({ log: false, checkOrigin: false }, '#testimonialto-karrera-wall');
+          clearInterval(checkResizer);
+        }
+      }, 200);
+      // Stop checking after 10 seconds
+      setTimeout(function() { clearInterval(checkResizer); }, 10000);
     });
   </script>
 
