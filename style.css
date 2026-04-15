@@ -275,6 +275,20 @@ body {
   gap: var(--space-3);
 }
 
+@media (max-width: 767px) {
+  .header-actions {
+    gap: var(--space-2);
+  }
+  .header-actions .theme-toggle {
+    display: none;
+  }
+  .header-actions .btn {
+    font-size: 0.7rem;
+    padding: var(--space-1) var(--space-3);
+    white-space: nowrap;
+  }
+}
+
 .theme-toggle {
   display: flex;
   align-items: center;
@@ -722,9 +736,16 @@ body {
   margin-inline: auto;
 }
 
+.pricing-cards--three {
+  max-width: 1100px;
+}
+
 @media (min-width: 768px) {
   .pricing-cards {
     grid-template-columns: repeat(2, 1fr);
+  }
+  .pricing-cards--three {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
@@ -754,6 +775,50 @@ body {
   padding: var(--space-1) var(--space-4);
   border-radius: var(--radius-full);
   white-space: nowrap;
+}
+
+.pricing-card--investor {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 1px var(--color-accent), 0 0 24px rgba(13, 148, 136, 0.15);
+  position: relative;
+  transform: scale(1.03);
+}
+
+.pricing-badge-investor {
+  position: absolute;
+  top: calc(-1 * var(--space-3));
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-accent);
+  color: #fff;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  padding: var(--space-1) var(--space-4);
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+}
+
+.pricing-lock {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-accent);
+  margin-top: var(--space-1);
+}
+
+.pricing-savings {
+  color: var(--color-text-muted);
+  font-weight: 400;
+}
+
+.pricing-note {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  margin-top: var(--space-3);
+  text-align: center;
+}
+
+.nav-why-btn {
+  font-size: var(--text-xs) !important;
 }
 
 .pricing-label {
@@ -1100,6 +1165,7 @@ body {
 
 .pricing-cards .reveal:nth-child(1) { transition-delay: 0ms; }
 .pricing-cards .reveal:nth-child(2) { transition-delay: 150ms; }
+.pricing-cards .reveal:nth-child(3) { transition-delay: 300ms; }
 
 /* Subtle hover lift on interactive cards */
 .step-card,

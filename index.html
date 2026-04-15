@@ -141,7 +141,7 @@
   <link rel="stylesheet" href="./style.css">
 
   <!-- Favicon (inline SVG as data URI) -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%230d9488'/><path d='M8 22V10l5 6 5-6v12' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/><circle cx='24' cy='10' r='2.5' fill='%2334d399'/></svg>" type="image/svg+xml">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%230d9488'/><path d='M10 8v16M10 16l8-8M10 16l8 8' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/><circle cx='24' cy='8' r='2.5' fill='%2334d399'/></svg>" type="image/svg+xml">
 
   <!-- Analytics (Plausible - privacy-friendly, no cookies, no consent banner) -->
   <!-- Privacy-friendly analytics by Plausible -->
@@ -162,21 +162,23 @@
       <a href="#" class="logo" aria-label="Karrera home">
         <svg class="logo-mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <rect width="32" height="32" rx="6" fill="var(--color-accent)"/>
-          <path d="M8 22V10l5 6 5-6v12" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="24" cy="10" r="2.5" fill="#34d399"/>
+          <path d="M10 8v16M10 16l8-8M10 16l8 8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="24" cy="8" r="2.5" fill="#34d399"/>
         </svg>
         <span class="logo-text">Karrera</span>
       </a>
 
       <nav class="header-nav" aria-label="Main navigation">
-        <a href="./why" class="nav-link">Why Karrera</a>
+        <a href="#how-it-works" class="nav-link">How It Works</a>
+        <a href="#pricing" class="nav-link">Pricing</a>
       </nav>
 
       <div class="header-actions">
         <button class="theme-toggle" data-theme-toggle aria-label="Switch to dark mode">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         </button>
-        <a href="#waitlist" class="btn btn-accent btn-sm">Join Waitlist</a>
+        <a href="./why" class="btn btn-outline btn-sm nav-why-btn">Why Karrera</a>
+        <a href="https://buy.stripe.com/aFa6oAcMN2Pl4Spcpcb3q02" class="btn btn-accent btn-sm" target="_blank">Early Investor — $3/mo</a>
       </div>
     </div>
   </header>
@@ -201,8 +203,8 @@
       <p class="hero-sub animate-in">Turn self-reported career claims into cryptographically signed proof. Every credential verified. Every claim authenticated. No more trust gaps.</p>
 
       <div class="hero-cta animate-in">
-        <a href="#waitlist" class="btn btn-accent btn-lg">Get Verified — $1</a>
-        <a href="#how-it-works" class="btn btn-outline btn-lg">See How It Works</a>
+        <a href="https://buy.stripe.com/aFa6oAcMN2Pl4Spcpcb3q02" class="btn btn-accent btn-lg" target="_blank">Become an Early Investor — $3/mo</a>
+        <a href="./why" class="btn btn-outline btn-lg">Why Karrera</a>
       </div>
 
       <div class="hero-proof animate-in">
@@ -367,7 +369,7 @@
         <p class="section-subtitle">Get your first career assessment for a dollar. Upgrade to keep your credentials verified, tracked, and always current.</p>
       </div>
 
-      <div class="pricing-cards">
+      <div class="pricing-cards pricing-cards--three">
         <div class="pricing-card reveal">
           <div class="pricing-label">First Assessment</div>
           <div class="pricing-amount">$1</div>
@@ -393,9 +395,46 @@
           <a href="#waitlist" class="btn btn-outline" style="width:100%">Join Waitlist</a>
         </div>
 
-        <div class="pricing-card pricing-card--featured reveal">
+        <div class="pricing-card pricing-card--investor reveal">
+          <div class="pricing-badge-investor">Early Investor — Limited</div>
+          <div class="pricing-label">Karrera Pro</div>
+          <div class="pricing-amount">$3<span>/month</span></div>
+          <div class="pricing-lock">Locked for life <span class="pricing-savings">(70% off $9.99)</span></div>
+          <p class="pricing-desc">Everything in Pro — plus a free upgrade to Karrera Elite when it ships. This rate disappears at launch.</p>
+          <ul class="pricing-features" role="list">
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Everything in Karrera Pro
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              $3/month locked forever
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Free upgrade to Karrera Elite
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Early Investor badge on your profile
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Priority verification processing
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Direct feedback channel
+            </li>
+          </ul>
+          <a href="https://buy.stripe.com/aFa6oAcMN2Pl4Spcpcb3q02" class="btn btn-accent" style="width:100%" target="_blank">Become an Early Investor</a>
+          <p class="pricing-note">Secure Stripe checkout · Cancel anytime</p>
+        </div>
+
+        <div class="pricing-card reveal">
           <div class="pricing-label">Karrera Pro</div>
           <div class="pricing-amount">$9.99<span>/month</span></div>
+          <div class="pricing-lock" style="opacity:0.5">At launch</div>
           <p class="pricing-desc">Continuous verification monitoring. Track skill atrophy, maintain active proofs, and keep your profile compiled.</p>
           <ul class="pricing-features" role="list">
             <li>
@@ -418,12 +457,8 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
               QR code &amp; embeddable badge
             </li>
-            <li>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              Priority verification processing
-            </li>
           </ul>
-          <a href="#waitlist" class="btn btn-accent" style="width:100%">Join Waitlist</a>
+          <a href="#waitlist" class="btn btn-outline" style="width:100%">Join Waitlist</a>
         </div>
       </div>
     </div>
@@ -461,17 +496,19 @@
         <a href="#" class="logo" aria-label="Karrera home" style="margin-bottom: var(--space-2);">
           <svg class="logo-mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="width:24px;height:24px;">
             <rect width="32" height="32" rx="6" fill="var(--color-accent)"/>
-            <path d="M8 22V10l5 6 5-6v12" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="24" cy="10" r="2.5" fill="#34d399"/>
+            <path d="M10 8v16M10 16l8-8M10 16l8 8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="24" cy="8" r="2.5" fill="#34d399"/>
           </svg>
           <span class="logo-text" style="font-size: var(--text-sm);">Karrera</span>
         </a>
         <p class="footer-text">&copy; 2026 Karrera. The trust layer for human capital.</p>
       </div>
       <div class="footer-links">
-        <a href="mailto:hello@karrera.dev">Contact</a>
+        <a href="./why" class="footer-why-link">Why Karrera</a>
         <a href="#pricing">Pricing</a>
         <a href="#how-it-works">How It Works</a>
+        <a href="https://buy.stripe.com/aFa6oAcMN2Pl4Spcpcb3q02" target="_blank">Early Investor — $3/mo</a>
+        <a href="mailto:hello@karrera.dev">Contact</a>
       </div>
     </div>
   </footer>
@@ -486,8 +523,8 @@
       <div class="modal-header">
         <svg class="modal-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <rect width="32" height="32" rx="6" fill="var(--color-accent)"/>
-          <path d="M8 22V10l5 6 5-6v12" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="24" cy="10" r="2.5" fill="#34d399"/>
+          <path d="M10 8v16M10 16l8-8M10 16l8 8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="24" cy="8" r="2.5" fill="#34d399"/>
         </svg>
         <h3 id="modal-title" class="modal-title">Join the Waitlist</h3>
         <p class="modal-subtitle">Be among the first to compile your career.</p>
