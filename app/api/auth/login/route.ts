@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { signIn } from "@/lib/auth";
-import { setSessionCookies } from "@/lib/session";
+import { buildSessionResponse } from "@/lib/session";
 
 export async function POST(req: Request) {
   try {
@@ -21,12 +21,11 @@ export async function POST(req: Request) {
     }
 
     if (result.AuthenticationResult) {
-      await setSessionCookies({
+      return buildSessionResponse({ ok: true }, {
         AccessToken: result.AuthenticationResult.AccessToken,
         IdToken: result.AuthenticationResult.IdToken,
         RefreshToken: result.AuthenticationResult.RefreshToken,
       });
-      return NextResponse.json({ ok: true });
     }
 
     return NextResponse.json({ error: "Authentication failed" }, { status: 401 });

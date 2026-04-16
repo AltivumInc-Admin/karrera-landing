@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import { NextResponse } from "next/server";
 import { verifyToken } from "./auth";
 
 export interface SessionUser {
@@ -25,37 +26,50 @@ export async function getServerSession(): Promise<SessionUser | null> {
   }
 }
 
-export async function setSessionCookies(tokens: {
-  AccessToken?: string;
-  IdToken?: string;
-  RefreshToken?: string;
-}) {
-  const cookieStore = await cookies();
-  const cookieOptions = {
+/**
+ * Build a NextResponse with session cookies attached.
+ * This avoids the Next.js 15 issue where cookies().set() throws
+ * in Route Handlers after the request body has been read.
+ */
+export function buildSessionResponse(
+  body: Record<string, unknown>,
+  tokens: {
+    AccessToken?: string;
+    IdToken?: string;
+    RefreshToken?: string;
+  },
+  status = 200
+): NextResponse {
+  const res = NextResponse.json(body, { status });
+  const isProduction = process.env.NODE_ENV === "production";
+
+  const baseOptions = {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    secure: isProduction,
     path: "/",
     sameSite: "lax" as const,
   };
 
   if (tokens.AccessToken) {
-    cookieStore.set("karrera_access_token", tokens.AccessToken, {
-      ...cookieOptions,
-      maxAge: 3600, // 1 hour
+    res.cookies.set("karrera_access_token", tokens.AccessToken, {
+      ...baseOptions,
+      maxAge: 3600,
     });
   }
   if (tokens.IdToken) {
-    cookieStore.set("karrera_id_token", tokens.IdToken, {
-      ...cookieOptions,
+    res.cookies.set("karrera_id_token", tokens.IdToken, {
+      ...baseOptions,
       maxAge: 3600,
     });
   }
   if (tokens.RefreshToken) {
-    cookieStore.set("karrera_refresh_token", tokens.RefreshToken, {
-      ...cookieOptions,
-      maxAge: 30 * 24 * 3600, // 30 days
+    res.cookies.set("karrera_refresh_token", tokens.RefreshToken, {
+      ...baseOptions,
+      maxAge: 30 * 24 * 3600,
     });
   }
+
+  return res;
 }
 
 export async function clearSessionCookies() {
