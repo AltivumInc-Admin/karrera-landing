@@ -94,16 +94,16 @@ export default function ResumeDisplay({
                     <div className="flex items-start justify-between gap-2">
                       <div>
                         <div className="font-semibold text-gray-900 text-sm">{exp.title}</div>
-                        <div className="text-sm text-gray-600">{exp.company}{exp.location ? ` \u00B7 ${exp.location}` : ""}</div>
+                        <div className="text-sm text-gray-600">{exp.company}{exp.location ? ` · ${exp.location}` : ""}</div>
                       </div>
                       <div className="text-xs text-gray-400 whitespace-nowrap shrink-0">
-                        {exp.startDate} \u2013 {exp.endDate}
+                        {exp.startDate} – {exp.endDate}
                       </div>
                     </div>
                     {exp.bullets?.length > 0 && (
                       <ul className="mt-2 space-y-1">
                         {exp.bullets.map((b, j) => (
-                          <li key={j} className="text-sm text-gray-600 pl-4 relative before:content-['\u2022'] before:absolute before:left-0 before:text-gray-400">{b}</li>
+                          <li key={j} className="text-sm text-gray-600 pl-4 relative before:content-['•'] before:absolute before:left-0 before:text-gray-400">{b}</li>
                         ))}
                       </ul>
                     )}
@@ -123,11 +123,11 @@ export default function ResumeDisplay({
                       <div className="font-semibold text-gray-900 text-sm">{edu.institution}</div>
                       <div className="text-sm text-gray-600">
                         {edu.degree}{edu.field ? ` in ${edu.field}` : ""}
-                        {edu.gpa ? ` \u00B7 GPA: ${edu.gpa}` : ""}
+                        {edu.gpa ? ` · GPA: ${edu.gpa}` : ""}
                       </div>
                     </div>
                     <div className="text-xs text-gray-400 whitespace-nowrap shrink-0">
-                      {edu.startDate} \u2013 {edu.endDate}
+                      {edu.startDate} – {edu.endDate}
                     </div>
                   </div>
                 ))}
@@ -163,7 +163,7 @@ export default function ResumeDisplay({
                   <div key={i} className="flex items-start justify-between gap-2">
                     <div>
                       <span className="font-medium text-sm text-gray-900">{cert.name}</span>
-                      <span className="text-sm text-gray-500"> \u00B7 {cert.issuer}</span>
+                      <span className="text-sm text-gray-500"> · {cert.issuer}</span>
                       {cert.credlyUrl && (
                         <a href={cert.credlyUrl} target="_blank" rel="noopener noreferrer" className="ml-2 text-xs text-teal-600 hover:underline">
                           Verify
@@ -214,16 +214,16 @@ export default function ResumeDisplay({
                     <div className="flex items-start justify-between gap-2">
                       <div>
                         <div className="font-semibold text-sm text-gray-900">{mil.role}</div>
-                        <div className="text-sm text-gray-600">{mil.branch} \u00B7 {mil.rank}</div>
+                        <div className="text-sm text-gray-600">{mil.branch} · {mil.rank}</div>
                       </div>
                       <div className="text-xs text-gray-400 whitespace-nowrap shrink-0">
-                        {mil.startDate} \u2013 {mil.endDate}
+                        {mil.startDate} – {mil.endDate}
                       </div>
                     </div>
                     {mil.highlights?.length > 0 && (
                       <ul className="mt-2 space-y-1">
                         {mil.highlights.map((h, j) => (
-                          <li key={j} className="text-sm text-gray-600 pl-4 relative before:content-['\u2022'] before:absolute before:left-0 before:text-gray-400">{h}</li>
+                          <li key={j} className="text-sm text-gray-600 pl-4 relative before:content-['•'] before:absolute before:left-0 before:text-gray-400">{h}</li>
                         ))}
                       </ul>
                     )}

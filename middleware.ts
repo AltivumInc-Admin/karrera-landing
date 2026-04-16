@@ -1,22 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createRemoteJWKSet, jwtVerify, type JWTVerifyGetKey } from "jose";
+import { AWS_REGION, COGNITO } from "./lib/constants";
 
 export const config = { matcher: ["/dashboard/:path*"] };
 
 let _jwks: JWTVerifyGetKey | null = null;
 
-function getPoolId(): string {
-  return process.env.NEXT_PUBLIC_COGNITO_USER_POOL_ID ?? "";
-}
-
-function getClientId(): string {
-  return process.env.NEXT_PUBLIC_COGNITO_CLIENT_ID ?? "";
-}
-
 function getJWKS(): JWTVerifyGetKey {
   if (!_jwks) {
-    const poolId = getPoolId();
-    const url = `https://cognito-idp.us-east-1.amazonaws.com/${poolId}/.well-known/jwks.json`;
+    const url = `https://cognito-idp.${AWS_REGION}.amazonaws.com/${COGNITO.USER_POOL_ID}/.well-known/jwks.json`;
     _jwks = createRemoteJWKSet(new URL(url));
   }
   return _jwks;
@@ -24,16 +16,13 @@ function getJWKS(): JWTVerifyGetKey {
 
 async function verifyAccessToken(token: string) {
   return jwtVerify(token, getJWKS(), {
-    issuer: `https://cognito-idp.us-east-1.amazonaws.com/${getPoolId()}`,
+    issuer: `https://cognito-idp.${AWS_REGION}.amazonaws.com/${COGNITO.USER_POOL_ID}`,
   });
 }
 
 export async function middleware(req: NextRequest) {
-  const poolId = getPoolId();
-  const clientId = getClientId();
-
   // If Cognito is not configured, redirect to login
-  if (!poolId || !clientId) {
+  if (!COGNITO.USER_POOL_ID || !COGNITO.WEB_CLIENT_ID) {
     const loginUrl = new URL("/login", req.url);
     loginUrl.searchParams.set("redirect", req.nextUrl.pathname);
     return NextResponse.redirect(loginUrl);
@@ -54,7 +43,7 @@ export async function middleware(req: NextRequest) {
   if (refreshToken) {
     try {
       const refreshRes = await fetch(
-        `https://cognito-idp.us-east-1.amazonaws.com/`,
+        `https://cognito-idp.${AWS_REGION}.amazonaws.com/`,
         {
           method: "POST",
           headers: {
@@ -63,7 +52,7 @@ export async function middleware(req: NextRequest) {
           },
           body: JSON.stringify({
             AuthFlow: "REFRESH_TOKEN_AUTH",
-            ClientId: clientId,
+            ClientId: COGNITO.WEB_CLIENT_ID,
             AuthParameters: { REFRESH_TOKEN: refreshToken },
           }),
         }

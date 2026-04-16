@@ -1,38 +1,19 @@
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import {
-  DynamoDBDocumentClient,
   GetCommand,
   PutCommand,
   UpdateCommand,
   DeleteCommand,
 } from "@aws-sdk/lib-dynamodb";
+import { getDynamoDocClient } from "./aws";
+import { DYNAMODB_TABLES, S3_BUCKETS } from "./constants";
 import type { UserProfile, ResumeRecord } from "@/types/resume";
-
-let _docClient: DynamoDBDocumentClient | null = null;
-
-function getDocClient(): DynamoDBDocumentClient {
-  if (!_docClient) {
-    const ddbClient = new DynamoDBClient({
-      region: process.env.NEXT_PUBLIC_AWS_REGION ?? "us-east-1",
-      credentials: {
-        accessKeyId: (process.env.KARRERA_ACCESS_KEY_ID ?? process.env.AWS_ACCESS_KEY_ID)!,
-        secretAccessKey: (process.env.KARRERA_SECRET_ACCESS_KEY ?? process.env.AWS_SECRET_ACCESS_KEY)!,
-      },
-    });
-    _docClient = DynamoDBDocumentClient.from(ddbClient);
-  }
-  return _docClient;
-}
-
-const USERS_TABLE = "karrera-users";
-const RESUMES_TABLE = "karrera-resumes";
 
 // ---- User Profile ----
 
 export async function getUserProfile(email: string): Promise<UserProfile | null> {
-  const result = await getDocClient().send(
+  const result = await getDynamoDocClient().send(
     new GetCommand({
-      TableName: USERS_TABLE,
+      TableName: DYNAMODB_TABLES.USERS,
       Key: { pk: `USER#${email}`, sk: "PROFILE" },
     })
   );
@@ -60,9 +41,9 @@ export async function updateUserProfile(
   expressions.push("updatedAt = :now");
   values[":now"] = new Date().toISOString();
 
-  await getDocClient().send(
+  await getDynamoDocClient().send(
     new UpdateCommand({
-      TableName: USERS_TABLE,
+      TableName: DYNAMODB_TABLES.USERS,
       Key: { pk: `USER#${email}`, sk: "PROFILE" },
       UpdateExpression: `SET ${expressions.join(", ")}`,
       ExpressionAttributeNames: Object.keys(names).length ? names : undefined,
@@ -74,9 +55,9 @@ export async function updateUserProfile(
 // ---- Resume Record ----
 
 export async function getResumeRecord(email: string): Promise<ResumeRecord | null> {
-  const result = await getDocClient().send(
+  const result = await getDynamoDocClient().send(
     new GetCommand({
-      TableName: RESUMES_TABLE,
+      TableName: DYNAMODB_TABLES.RESUMES,
       Key: { pk: `USER#${email}`, sk: "RESUME" },
     })
   );
@@ -90,14 +71,14 @@ export async function putResumeRecord(
     status: "pending" | "parsed" | "error";
   }
 ): Promise<void> {
-  await getDocClient().send(
+  await getDynamoDocClient().send(
     new PutCommand({
-      TableName: RESUMES_TABLE,
+      TableName: DYNAMODB_TABLES.RESUMES,
       Item: {
         pk: `USER#${email}`,
         sk: "RESUME",
         s3Key: data.s3Key,
-        s3Bucket: "karrera-resumes-prod",
+        s3Bucket: S3_BUCKETS.RESUMES,
         status: data.status,
         uploadedAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
@@ -107,9 +88,9 @@ export async function putResumeRecord(
 }
 
 export async function clearResumeRecord(email: string): Promise<void> {
-  await getDocClient().send(
+  await getDynamoDocClient().send(
     new DeleteCommand({
-      TableName: RESUMES_TABLE,
+      TableName: DYNAMODB_TABLES.RESUMES,
       Key: { pk: `USER#${email}`, sk: "RESUME" },
     })
   );

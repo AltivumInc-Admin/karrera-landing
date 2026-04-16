@@ -1,25 +1,9 @@
 import { NextResponse } from "next/server";
+import { AdminUpdateUserAttributesCommand } from "@aws-sdk/client-cognito-identity-provider";
 import { getServerSession } from "@/lib/session";
 import { getUserProfile, updateUserProfile } from "@/lib/dynamo";
-import {
-  CognitoIdentityProviderClient,
-  AdminUpdateUserAttributesCommand,
-} from "@aws-sdk/client-cognito-identity-provider";
-
-let _cognito: CognitoIdentityProviderClient | null = null;
-
-function getCognitoClient(): CognitoIdentityProviderClient {
-  if (!_cognito) {
-    _cognito = new CognitoIdentityProviderClient({
-      region: process.env.NEXT_PUBLIC_AWS_REGION ?? "us-east-1",
-      credentials: {
-        accessKeyId: (process.env.KARRERA_ACCESS_KEY_ID ?? process.env.AWS_ACCESS_KEY_ID)!,
-        secretAccessKey: (process.env.KARRERA_SECRET_ACCESS_KEY ?? process.env.AWS_SECRET_ACCESS_KEY)!,
-      },
-    });
-  }
-  return _cognito;
-}
+import { getCognitoClient } from "@/lib/aws";
+import { COGNITO } from "@/lib/constants";
 
 export async function GET() {
   const session = await getServerSession();
@@ -49,7 +33,7 @@ export async function PUT(req: Request) {
     if (attributes.length > 0) {
       await getCognitoClient().send(
         new AdminUpdateUserAttributesCommand({
-          UserPoolId: process.env.NEXT_PUBLIC_COGNITO_USER_POOL_ID!,
+          UserPoolId: COGNITO.USER_POOL_ID,
           Username: session.email,
           UserAttributes: attributes,
         })

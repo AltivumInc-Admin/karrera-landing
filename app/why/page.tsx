@@ -1,171 +1,17 @@
-"use client";
-
-import { useEffect, useRef } from "react";
 import "@/styles/landing.css";
 import "@/styles/why.css";
+import Header from "@/components/marketing/Header";
+import Footer from "@/components/marketing/Footer";
+import SkipToContent from "@/components/marketing/SkipToContent";
+import WhyClient from "@/components/marketing/WhyClient";
+import { STRIPE_PAYMENT_URL } from "@/lib/constants";
 
 export default function WhyPage() {
-  const headerRef = useRef<HTMLElement>(null);
-
-  // Theme toggle
-  useEffect(() => {
-    const t = document.querySelector("[data-theme-toggle]") as HTMLButtonElement | null;
-    const r = document.documentElement;
-    let d = matchMedia("(prefers-color-scheme:dark)").matches ? "dark" : "light";
-    r.setAttribute("data-theme", d);
-    updateToggleIcon();
-
-    function handleClick() {
-      d = d === "dark" ? "light" : "dark";
-      r.setAttribute("data-theme", d);
-      if (t) t.setAttribute("aria-label", "Switch to " + (d === "dark" ? "light" : "dark") + " mode");
-      updateToggleIcon();
-    }
-
-    function updateToggleIcon() {
-      if (!t) return;
-      t.innerHTML =
-        d === "dark"
-          ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>'
-          : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
-    }
-
-    if (t) t.addEventListener("click", handleClick);
-    return () => {
-      if (t) t.removeEventListener("click", handleClick);
-    };
-  }, []);
-
-  // Scroll header shadow
-  useEffect(() => {
-    const header = headerRef.current;
-    if (!header) return;
-    function onScroll() {
-      header!.classList.toggle("header--scrolled", window.scrollY > 10);
-    }
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  // Scroll reveal
-  useEffect(() => {
-    const reveals = document.querySelectorAll(".reveal");
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
-    );
-    reveals.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
-  }, []);
-
-  // Smooth scroll for anchor links
-  useEffect(() => {
-    function handleAnchorClick(this: HTMLAnchorElement, e: Event) {
-      e.preventDefault();
-      const href = this.getAttribute("href");
-      if (href) {
-        const target = document.querySelector(href);
-        if (target) {
-          target.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
-      }
-    }
-    const anchors = document.querySelectorAll('a[href^="#"]');
-    anchors.forEach((anchor) => {
-      anchor.addEventListener("click", handleAnchorClick as EventListener);
-    });
-    return () => {
-      anchors.forEach((anchor) => {
-        anchor.removeEventListener("click", handleAnchorClick as EventListener);
-      });
-    };
-  }, []);
-
-  // Track pre-order CTA clicks
-  useEffect(() => {
-    function handlePreorderClick(this: HTMLElement) {
-      if ((window as any).plausible) {
-        (window as any).plausible("Pre-Order Click", {
-          props: { location: this.closest("section")?.id || "header" },
-        });
-      }
-    }
-    const btns = document.querySelectorAll("[data-preorder-cta]");
-    btns.forEach((btn) => {
-      btn.addEventListener("click", handlePreorderClick as EventListener);
-    });
-    return () => {
-      btns.forEach((btn) => {
-        btn.removeEventListener("click", handlePreorderClick as EventListener);
-      });
-    };
-  }, []);
-
-  // FAQ accordion
-  useEffect(() => {
-    function handleSummaryClick(this: HTMLElement) {
-      const item = this.closest(".faq-item");
-      document.querySelectorAll(".faq-item[open]").forEach((other) => {
-        if (other !== item) other.removeAttribute("open");
-      });
-    }
-    const summaries = document.querySelectorAll(".faq-item summary");
-    summaries.forEach((s) => {
-      s.addEventListener("click", handleSummaryClick as EventListener);
-    });
-    return () => {
-      summaries.forEach((s) => {
-        s.removeEventListener("click", handleSummaryClick as EventListener);
-      });
-    };
-  }, []);
-
   return (
     <>
-      {/* Skip to main content */}
-      <a
-        href="#main-content"
-        className="sr-only"
-        style={{ position: "absolute", top: "-40px", left: 0, background: "var(--color-accent)", color: "#fff", padding: "8px 16px", zIndex: 100, transition: "top 0.2s" }}
-        onFocus={(e) => { (e.target as HTMLElement).style.top = "0"; }}
-        onBlur={(e) => { (e.target as HTMLElement).style.top = "-40px"; }}
-      >
-        Skip to main content
-      </a>
-
-      {/* ===== HEADER ===== */}
-      <header className="header" id="header" ref={headerRef}>
-        <div className="container header-inner">
-          <a href="/" className="logo" aria-label="Karrera home">
-            <svg className="logo-mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <rect width="32" height="32" rx="6" fill="var(--color-accent)" />
-              <path d="M10 8v16M10 16l8-8M10 16l8 8" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-              <circle cx="24" cy="8" r="2.5" fill="#34d399" />
-            </svg>
-            <span className="logo-text">Karrera</span>
-          </a>
-
-          <nav className="header-nav" aria-label="Main navigation">
-            <a href="/" className="nav-link">Home</a>
-            <a href="/#how-it-works" className="nav-link">How It Works</a>
-            <a href="/#pricing" className="nav-link">Pricing</a>
-          </nav>
-
-          <div className="header-actions">
-            <button className="theme-toggle" data-theme-toggle aria-label="Switch to dark mode">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" /></svg>
-            </button>
-            <a href="https://buy.stripe.com/aFa6oAcMN2Pl4Spcpcb3q02" className="btn btn-accent btn-sm" data-preorder-cta target="_blank" rel="noopener noreferrer">Become an Early Investor</a>
-          </div>
-        </div>
-      </header>
+      <SkipToContent />
+      <Header variant="why" />
+      <WhyClient />
 
       {/* ===== MAIN CONTENT ===== */}
       <main id="main-content">
@@ -532,7 +378,7 @@ export default function WhyPage() {
                   </li>
                 </ul>
 
-                <a href="https://buy.stripe.com/aFa6oAcMN2Pl4Spcpcb3q02" className="btn btn-accent btn-lg preorder-btn" data-preorder-cta target="_blank" rel="noopener noreferrer">
+                <a href={STRIPE_PAYMENT_URL} className="btn btn-accent btn-lg preorder-btn" data-preorder-cta target="_blank" rel="noopener noreferrer">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ width: "20px", height: "20px", display: "inline", flexShrink: 0 }}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
                   Become an Early Investor — $3/mo
                 </a>
@@ -618,7 +464,7 @@ export default function WhyPage() {
             <div className="final-cta-content reveal">
               <h2 className="final-cta-title">The trust layer is being built.<br />Be part of it from day one.</h2>
               <p className="final-cta-sub">$3/month. Locked for life. Free upgrade to Elite. This offer disappears at launch.</p>
-              <a href="https://buy.stripe.com/aFa6oAcMN2Pl4Spcpcb3q02" className="btn btn-accent btn-lg" data-preorder-cta target="_blank" rel="noopener noreferrer">Become an Early Investor — $3/mo</a>
+              <a href={STRIPE_PAYMENT_URL} className="btn btn-accent btn-lg" data-preorder-cta target="_blank" rel="noopener noreferrer">Become an Early Investor — $3/mo</a>
               <p className="final-cta-note">or <a href="/#waitlist" style={{ color: "var(--color-accent)", textDecoration: "underline" }}>join the free waitlist</a> to stay updated</p>
             </div>
           </div>
@@ -626,28 +472,7 @@ export default function WhyPage() {
 
       </main>
 
-      {/* ===== FOOTER ===== */}
-      <footer className="footer">
-        <div className="container footer-inner">
-          <div>
-            <a href="/" className="logo" aria-label="Karrera home" style={{ marginBottom: "var(--space-2)" }}>
-              <svg className="logo-mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style={{ width: "24px", height: "24px" }}>
-                <rect width="32" height="32" rx="6" fill="var(--color-accent)" />
-                <path d="M10 8v16M10 16l8-8M10 16l8 8" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-                <circle cx="24" cy="8" r="2.5" fill="#34d399" />
-              </svg>
-              <span className="logo-text" style={{ fontSize: "var(--text-sm)" }}>Karrera</span>
-            </a>
-            <p className="footer-text">&copy; 2026 Karrera by Altivum Inc. Patent pending.</p>
-          </div>
-          <div className="footer-links">
-            <a href="mailto:hello@karrera.dev">Contact</a>
-            <a href="/">Home</a>
-            <a href="/#pricing">Pricing</a>
-            <a href="/#how-it-works">How It Works</a>
-          </div>
-        </div>
-      </footer>
+      <Footer variant="why" />
     </>
   );
 }
