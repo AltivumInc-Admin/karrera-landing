@@ -497,6 +497,151 @@ body {
   border-radius: var(--radius-lg);
 }
 
+/* --- Member Access Button (Header) --- */
+.btn-member {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  color: var(--color-text);
+  border: 1px solid transparent;
+  border-image: linear-gradient(
+    135deg,
+    rgba(45, 212, 191, 0.5),
+    rgba(196, 181, 137, 0.5),
+    rgba(45, 212, 191, 0.5)
+  ) 1;
+  position: relative;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  transition: all 0.3s ease;
+}
+.btn-member::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(45, 212, 191, 0.04),
+    rgba(196, 181, 137, 0.06),
+    rgba(45, 212, 191, 0.04)
+  );
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+.btn-member::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(196, 181, 137, 0.4) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: memberShimmer 3s ease-in-out infinite;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: xor;
+  -webkit-mask-composite: xor;
+  padding: 1px;
+}
+.btn-member:hover {
+  border-image: linear-gradient(
+    135deg,
+    rgba(45, 212, 191, 0.8),
+    rgba(196, 181, 137, 0.8),
+    rgba(45, 212, 191, 0.8)
+  ) 1;
+  box-shadow:
+    0 0 20px rgba(45, 212, 191, 0.1),
+    0 0 40px rgba(196, 181, 137, 0.05);
+}
+.btn-member:hover::before {
+  background: linear-gradient(
+    135deg,
+    rgba(45, 212, 191, 0.08),
+    rgba(196, 181, 137, 0.1),
+    rgba(45, 212, 191, 0.08)
+  );
+}
+.btn-member:hover::after {
+  opacity: 1;
+}
+@keyframes memberShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* --- Hero Member Access Link --- */
+.hero-member-access {
+  margin-top: var(--space-6);
+}
+.member-access-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  letter-spacing: 0.02em;
+}
+.member-access-link:hover {
+  color: var(--color-text);
+}
+.member-access-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(45, 212, 191, 0.15), rgba(196, 181, 137, 0.15));
+  border: 1px solid rgba(196, 181, 137, 0.3);
+  color: var(--color-accent);
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+.member-access-link:hover .member-access-badge {
+  background: linear-gradient(135deg, rgba(45, 212, 191, 0.25), rgba(196, 181, 137, 0.25));
+  border-color: rgba(196, 181, 137, 0.5);
+  box-shadow: 0 0 12px rgba(45, 212, 191, 0.15);
+}
+.member-access-cta {
+  color: var(--color-accent);
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+.member-access-link:hover .member-access-cta {
+  letter-spacing: 0.04em;
+}
+
+/* --- Footer Member Link --- */
+.footer-member-link {
+  color: var(--color-accent) !important;
+  position: relative;
+}
+.footer-member-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: linear-gradient(90deg, var(--color-accent), rgba(196, 181, 137, 0.6));
+  transition: width 0.3s ease;
+}
+.footer-member-link:hover::after {
+  width: 100%;
+}
+
 /* ============================================
    HERO SECTION
    ============================================ */

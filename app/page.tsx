@@ -263,6 +263,14 @@ export default function LandingPage() {
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" /></svg>
             </button>
             <a href="/why" className="btn btn-outline btn-sm nav-why-btn">Why Karrera</a>
+            <a href="/login" className="btn btn-member btn-sm">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{width: '16px', height: '16px', flexShrink: 0}}>
+                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+                <polyline points="10 17 15 12 10 7" />
+                <line x1="15" y1="12" x2="3" y2="12" />
+              </svg>
+              Member Access
+            </a>
             <a href="https://buy.stripe.com/aFa6oAcMN2Pl4Spcpcb3q02" className="btn btn-accent btn-sm" target="_blank" rel="noopener noreferrer">Early Investor — $3/mo</a>
           </div>
         </div>
@@ -290,6 +298,17 @@ export default function LandingPage() {
             <div className="hero-cta animate-in">
               <a href="https://buy.stripe.com/aFa6oAcMN2Pl4Spcpcb3q02" className="btn btn-accent btn-lg" target="_blank" rel="noopener noreferrer">Become an Early Investor — $3/mo</a>
               <a href="/why" className="btn btn-outline btn-lg">Why Karrera</a>
+            </div>
+
+            <div className="hero-member-access animate-in">
+              <a href="/login" className="member-access-link">
+                <span className="member-access-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{width: '14px', height: '14px'}}>
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                  </svg>
+                </span>
+                Already a member? <span className="member-access-cta">Enter your dashboard &rarr;</span>
+              </a>
             </div>
 
             <div className="hero-proof animate-in">
@@ -591,6 +610,7 @@ export default function LandingPage() {
             <a href="/why" className="footer-why-link">Why Karrera</a>
             <a href="#pricing">Pricing</a>
             <a href="#how-it-works">How It Works</a>
+            <a href="/login" className="footer-member-link">Member Access</a>
             <a href="https://buy.stripe.com/aFa6oAcMN2Pl4Spcpcb3q02" target="_blank" rel="noopener noreferrer">Early Investor — $3/mo</a>
             <a href="mailto:hello@karrera.dev">Contact</a>
           </div>
