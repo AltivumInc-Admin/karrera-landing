@@ -5,28 +5,48 @@ import {
   GetUserCommand,
   GlobalSignOutCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
-import { createRemoteJWKSet, jwtVerify } from "jose";
+import { createRemoteJWKSet, jwtVerify, type JWTVerifyGetKey } from "jose";
 
-const client = new CognitoIdentityProviderClient({
-  region: process.env.NEXT_PUBLIC_AWS_REGION ?? "us-east-1",
-});
+let _client: CognitoIdentityProviderClient | null = null;
 
-const POOL_ID = process.env.NEXT_PUBLIC_COGNITO_USER_POOL_ID!;
-const CLIENT_ID = process.env.NEXT_PUBLIC_COGNITO_CLIENT_ID!;
+function getClient(): CognitoIdentityProviderClient {
+  if (!_client) {
+    _client = new CognitoIdentityProviderClient({
+      region: process.env.NEXT_PUBLIC_AWS_REGION ?? "us-east-1",
+    });
+  }
+  return _client;
+}
 
-const JWKS_URL = `https://cognito-idp.us-east-1.amazonaws.com/${POOL_ID}/.well-known/jwks.json`;
-const JWKS = createRemoteJWKSet(new URL(JWKS_URL));
+function getPoolId(): string {
+  return process.env.NEXT_PUBLIC_COGNITO_USER_POOL_ID ?? "";
+}
+
+function getClientId(): string {
+  return process.env.NEXT_PUBLIC_COGNITO_CLIENT_ID ?? "";
+}
+
+let _jwks: JWTVerifyGetKey | null = null;
+
+function getJWKS(): JWTVerifyGetKey {
+  if (!_jwks) {
+    const poolId = getPoolId();
+    const url = `https://cognito-idp.us-east-1.amazonaws.com/${poolId}/.well-known/jwks.json`;
+    _jwks = createRemoteJWKSet(new URL(url));
+  }
+  return _jwks;
+}
 
 export async function signIn(email: string, password: string) {
   const command = new InitiateAuthCommand({
     AuthFlow: "USER_PASSWORD_AUTH",
-    ClientId: CLIENT_ID,
+    ClientId: getClientId(),
     AuthParameters: {
       USERNAME: email,
       PASSWORD: password,
     },
   });
-  return client.send(command);
+  return getClient().send(command);
 }
 
 export async function respondToNewPasswordChallenge(
@@ -36,40 +56,40 @@ export async function respondToNewPasswordChallenge(
 ) {
   const command = new RespondToAuthChallengeCommand({
     ChallengeName: "NEW_PASSWORD_REQUIRED",
-    ClientId: CLIENT_ID,
+    ClientId: getClientId(),
     ChallengeResponses: {
       USERNAME: email,
       NEW_PASSWORD: newPassword,
     },
     Session: session,
   });
-  return client.send(command);
+  return getClient().send(command);
 }
 
 export async function refreshTokens(refreshToken: string) {
   const command = new InitiateAuthCommand({
     AuthFlow: "REFRESH_TOKEN_AUTH",
-    ClientId: CLIENT_ID,
+    ClientId: getClientId(),
     AuthParameters: {
       REFRESH_TOKEN: refreshToken,
     },
   });
-  const result = await client.send(command);
+  const result = await getClient().send(command);
   return result.AuthenticationResult;
 }
 
 export async function getUserFromToken(accessToken: string) {
   const command = new GetUserCommand({ AccessToken: accessToken });
-  return client.send(command);
+  return getClient().send(command);
 }
 
 export async function verifyToken(token: string) {
-  return jwtVerify(token, JWKS, {
-    issuer: `https://cognito-idp.us-east-1.amazonaws.com/${POOL_ID}`,
+  return jwtVerify(token, getJWKS(), {
+    issuer: `https://cognito-idp.us-east-1.amazonaws.com/${getPoolId()}`,
   });
 }
 
 export async function signOut(accessToken: string) {
   const command = new GlobalSignOutCommand({ AccessToken: accessToken });
-  return client.send(command);
+  return getClient().send(command);
 }

@@ -1,16 +1,30 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createRemoteJWKSet, jwtVerify } from "jose";
-
-const POOL_ID = process.env.NEXT_PUBLIC_COGNITO_USER_POOL_ID!;
-const CLIENT_ID = process.env.NEXT_PUBLIC_COGNITO_CLIENT_ID!;
-const JWKS_URL = `https://cognito-idp.us-east-1.amazonaws.com/${POOL_ID}/.well-known/jwks.json`;
-const JWKS = createRemoteJWKSet(new URL(JWKS_URL));
+import { createRemoteJWKSet, jwtVerify, type JWTVerifyGetKey } from "jose";
 
 export const config = { matcher: ["/dashboard/:path*"] };
 
+let _jwks: JWTVerifyGetKey | null = null;
+
+function getPoolId(): string {
+  return process.env.NEXT_PUBLIC_COGNITO_USER_POOL_ID ?? "";
+}
+
+function getClientId(): string {
+  return process.env.NEXT_PUBLIC_COGNITO_CLIENT_ID ?? "";
+}
+
+function getJWKS(): JWTVerifyGetKey {
+  if (!_jwks) {
+    const poolId = getPoolId();
+    const url = `https://cognito-idp.us-east-1.amazonaws.com/${poolId}/.well-known/jwks.json`;
+    _jwks = createRemoteJWKSet(new URL(url));
+  }
+  return _jwks;
+}
+
 async function verifyAccessToken(token: string) {
-  return jwtVerify(token, JWKS, {
-    issuer: `https://cognito-idp.us-east-1.amazonaws.com/${POOL_ID}`,
+  return jwtVerify(token, getJWKS(), {
+    issuer: `https://cognito-idp.us-east-1.amazonaws.com/${getPoolId()}`,
   });
 }
 
@@ -39,7 +53,7 @@ export async function middleware(req: NextRequest) {
           },
           body: JSON.stringify({
             AuthFlow: "REFRESH_TOKEN_AUTH",
-            ClientId: CLIENT_ID,
+            ClientId: getClientId(),
             AuthParameters: { REFRESH_TOKEN: refreshToken },
           }),
         }
