@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -36,7 +37,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,700,800&f[]=satoshi@300,400,500,600,700&display=swap" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-        <script async src="https://plausible.io/js/pa-nV0LEDjkN9GyEvFefCqCQ.js" />
+        <Script src="https://plausible.io/js/pa-nV0LEDjkN9GyEvFefCqCQ.js" strategy="afterInteractive" />
       </head>
       <body>{children}</body>
     </html>

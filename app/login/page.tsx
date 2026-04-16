@@ -1,13 +1,17 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
-function LoginForm() {
+export default function LoginPage() {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const redirect = searchParams.get("redirect") ?? "/dashboard/resume";
+
+  // Read redirect param on the client to avoid useSearchParams/Suspense bailout
+  const [redirect, setRedirect] = useState("/dashboard/resume");
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setRedirect(params.get("redirect") ?? "/dashboard/resume");
+  }, []);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -203,13 +207,5 @@ function LoginForm() {
         </p>
       </div>
     </div>
-  );
-}
-
-export default function LoginPage() {
-  return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-gray-50"><div className="text-gray-400">Loading...</div></div>}>
-      <LoginForm />
-    </Suspense>
   );
 }

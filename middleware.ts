@@ -29,6 +29,16 @@ async function verifyAccessToken(token: string) {
 }
 
 export async function middleware(req: NextRequest) {
+  const poolId = getPoolId();
+  const clientId = getClientId();
+
+  // If Cognito is not configured, redirect to login
+  if (!poolId || !clientId) {
+    const loginUrl = new URL("/login", req.url);
+    loginUrl.searchParams.set("redirect", req.nextUrl.pathname);
+    return NextResponse.redirect(loginUrl);
+  }
+
   const accessToken = req.cookies.get("karrera_access_token")?.value;
 
   if (accessToken) {
@@ -53,7 +63,7 @@ export async function middleware(req: NextRequest) {
           },
           body: JSON.stringify({
             AuthFlow: "REFRESH_TOKEN_AUTH",
-            ClientId: getClientId(),
+            ClientId: clientId,
             AuthParameters: { REFRESH_TOKEN: refreshToken },
           }),
         }
