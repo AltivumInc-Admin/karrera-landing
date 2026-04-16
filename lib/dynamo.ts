@@ -8,15 +8,21 @@ import {
 } from "@aws-sdk/lib-dynamodb";
 import type { UserProfile, ResumeRecord } from "@/types/resume";
 
-const ddbClient = new DynamoDBClient({
-  region: process.env.NEXT_PUBLIC_AWS_REGION ?? "us-east-1",
-  credentials: {
-    accessKeyId: (process.env.KARRERA_ACCESS_KEY_ID ?? process.env.AWS_ACCESS_KEY_ID)!,
-    secretAccessKey: (process.env.KARRERA_SECRET_ACCESS_KEY ?? process.env.AWS_SECRET_ACCESS_KEY)!,
-  },
-});
+let _docClient: DynamoDBDocumentClient | null = null;
 
-const docClient = DynamoDBDocumentClient.from(ddbClient);
+function getDocClient(): DynamoDBDocumentClient {
+  if (!_docClient) {
+    const ddbClient = new DynamoDBClient({
+      region: process.env.NEXT_PUBLIC_AWS_REGION ?? "us-east-1",
+      credentials: {
+        accessKeyId: (process.env.KARRERA_ACCESS_KEY_ID ?? process.env.AWS_ACCESS_KEY_ID)!,
+        secretAccessKey: (process.env.KARRERA_SECRET_ACCESS_KEY ?? process.env.AWS_SECRET_ACCESS_KEY)!,
+      },
+    });
+    _docClient = DynamoDBDocumentClient.from(ddbClient);
+  }
+  return _docClient;
+}
 
 const USERS_TABLE = "karrera-users";
 const RESUMES_TABLE = "karrera-resumes";
@@ -24,7 +30,7 @@ const RESUMES_TABLE = "karrera-resumes";
 // ---- User Profile ----
 
 export async function getUserProfile(email: string): Promise<UserProfile | null> {
-  const result = await docClient.send(
+  const result = await getDocClient().send(
     new GetCommand({
       TableName: USERS_TABLE,
       Key: { pk: `USER#${email}`, sk: "PROFILE" },
@@ -54,7 +60,7 @@ export async function updateUserProfile(
   expressions.push("updatedAt = :now");
   values[":now"] = new Date().toISOString();
 
-  await docClient.send(
+  await getDocClient().send(
     new UpdateCommand({
       TableName: USERS_TABLE,
       Key: { pk: `USER#${email}`, sk: "PROFILE" },
@@ -68,7 +74,7 @@ export async function updateUserProfile(
 // ---- Resume Record ----
 
 export async function getResumeRecord(email: string): Promise<ResumeRecord | null> {
-  const result = await docClient.send(
+  const result = await getDocClient().send(
     new GetCommand({
       TableName: RESUMES_TABLE,
       Key: { pk: `USER#${email}`, sk: "RESUME" },
@@ -84,7 +90,7 @@ export async function putResumeRecord(
     status: "pending" | "parsed" | "error";
   }
 ): Promise<void> {
-  await docClient.send(
+  await getDocClient().send(
     new PutCommand({
       TableName: RESUMES_TABLE,
       Item: {
@@ -101,7 +107,7 @@ export async function putResumeRecord(
 }
 
 export async function clearResumeRecord(email: string): Promise<void> {
-  await docClient.send(
+  await getDocClient().send(
     new DeleteCommand({
       TableName: RESUMES_TABLE,
       Key: { pk: `USER#${email}`, sk: "RESUME" },

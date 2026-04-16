@@ -6,13 +6,20 @@ import {
   AdminUpdateUserAttributesCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
 
-const cognito = new CognitoIdentityProviderClient({
-  region: process.env.NEXT_PUBLIC_AWS_REGION ?? "us-east-1",
-  credentials: {
-    accessKeyId: (process.env.KARRERA_ACCESS_KEY_ID ?? process.env.AWS_ACCESS_KEY_ID)!,
-    secretAccessKey: (process.env.KARRERA_SECRET_ACCESS_KEY ?? process.env.AWS_SECRET_ACCESS_KEY)!,
-  },
-});
+let _cognito: CognitoIdentityProviderClient | null = null;
+
+function getCognitoClient(): CognitoIdentityProviderClient {
+  if (!_cognito) {
+    _cognito = new CognitoIdentityProviderClient({
+      region: process.env.NEXT_PUBLIC_AWS_REGION ?? "us-east-1",
+      credentials: {
+        accessKeyId: (process.env.KARRERA_ACCESS_KEY_ID ?? process.env.AWS_ACCESS_KEY_ID)!,
+        secretAccessKey: (process.env.KARRERA_SECRET_ACCESS_KEY ?? process.env.AWS_SECRET_ACCESS_KEY)!,
+      },
+    });
+  }
+  return _cognito;
+}
 
 export async function GET() {
   const session = await getServerSession();
@@ -40,7 +47,7 @@ export async function PUT(req: Request) {
     if (phone) attributes.push({ Name: "phone_number", Value: phone });
 
     if (attributes.length > 0) {
-      await cognito.send(
+      await getCognitoClient().send(
         new AdminUpdateUserAttributesCommand({
           UserPoolId: process.env.NEXT_PUBLIC_COGNITO_USER_POOL_ID!,
           Username: session.email,
